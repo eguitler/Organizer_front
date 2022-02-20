@@ -5,21 +5,18 @@ const Button = ({
   children,
   variant,
   size,
-}) => {
-  console.log('asd >> props');
-  return (
-    <StyledButton
-      className={`${variant} ${size}`}
-    >
-      {children}
-    </StyledButton>
-  );
-};
+}) => (
+  <StyledButton
+    className={`${variant} ${size}`}
+  >
+    {children}
+  </StyledButton>
+);
 
 export default Button;
 
 Button.propTypes = {
-  children: PropTypes.any.isRequired,
+  children: PropTypes.node.isRequired,
   variant: PropTypes.string,
   size: PropTypes.string,
 };
