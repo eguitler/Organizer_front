@@ -6,7 +6,7 @@ const StyledAside = styled.aside`
   top: 0;
   bottom: 0;
   width: 100px;
-  background-color: #14b;
+  background-color: ${(props) => props.theme.primary};
   color: white;
 
   display: flex;
