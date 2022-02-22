@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledItem = styled.div`
+export const StyledAsideItem = styled.div`
   margin: 25px auto;
   display: grid;
   place-items: center;
@@ -8,6 +8,7 @@ export const StyledItem = styled.div`
   z-index: 10;
   cursor: pointer;
   width: fit-content;
+  color: ${({ theme }) => theme.colors.white};
 
   &:before {
     content:'';
@@ -33,7 +34,7 @@ export const StyledItemTitle = styled.div`
   border-radius: 5px;
   background-color: #11275A;
   display: none;
-  
+  user-select: none;
   &.show {
     display: block;
     animation: fade 500ms;

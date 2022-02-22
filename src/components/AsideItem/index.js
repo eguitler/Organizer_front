@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import {
-  StyledItem,
+  StyledAsideItem,
   StyledItemTitle,
 } from './styles';
 
@@ -10,7 +10,11 @@ import {
  * @param {node} children icon from react-icons
  * @param {string} title string to show on hover
  */
-const AsideItem = ({ children, title }) => {
+const AsideItem = ({
+  icon,
+  title,
+  onClick,
+}) => {
   const [showTitle, setShowTitle] = useState(false);
 
   const toggleShowTitle = () => {
@@ -18,25 +22,30 @@ const AsideItem = ({ children, title }) => {
   };
 
   return (
-    <StyledItem
+    <StyledAsideItem
       onMouseEnter={toggleShowTitle}
       onMouseLeave={toggleShowTitle}
+      onClick={onClick}
     >
-      {children}
-      <StyledItemTitle className={showTitle ? 'show' : ''}>
-        {title}
-      </StyledItemTitle>
-    </StyledItem>
+      {icon}
+      {title && (
+        <StyledItemTitle className={showTitle ? 'show' : ''}>
+          {title}
+        </StyledItemTitle>
+      )}
+    </StyledAsideItem>
   );
 };
 
 export default AsideItem;
 
 AsideItem.propTypes = {
-  children: PropTypes.node.isRequired,
+  icon: PropTypes.node.isRequired,
   title: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 AsideItem.defaultProps = {
   title: '',
+  onClick: () => { },
 };
