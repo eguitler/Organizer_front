@@ -1,8 +1,6 @@
 import { FaHome } from 'react-icons/fa';
 import { VscProject } from 'react-icons/vsc';
-import { HiMoon } from 'react-icons/hi';
 import {
-  MdSettings,
   MdOutlineCategory,
 } from 'react-icons/md';
 import {
@@ -10,84 +8,79 @@ import {
   BsTrophy,
   BsFlag,
   BsCalendar4Week,
-  BsSunFill,
 } from 'react-icons/bs';
 import { BiUserCircle } from 'react-icons/bi';
-import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import StyledAside from './styles';
 import AsideItem from '../AsideItem';
+import AsideMenu from '../AsideMenu';
 
-const Aside = () => {
-  const [nightmode, setNightmode] = useState(false);
+const Aside = () => (
+  <StyledAside>
+    <div>
+      <Link to='/'>
+        <AsideItem
+          icon={<FaHome size={40} />}
+          title='Home'
+        />
+      </Link>
 
-  function toggleNightmode() {
-    setNightmode(!nightmode);
-  }
+      <Link to='/projects'>
+        <AsideItem
+          icon={<VscProject size={30} />}
+          title='Projects'
+        />
+      </Link>
 
-  return (
-    <StyledAside>
-      <div>
-        <AsideItem title='Home'>
-          <FaHome
-            size={40}
-          />
-        </AsideItem>
-        <AsideItem title='Projects'>
-          <VscProject
-            size={30}
-          />
-        </AsideItem>
-        <AsideItem title='Lists'>
-          <BsListTask
-            size={30}
-          />
-        </AsideItem>
-        <AsideItem title='Goals'>
-          <BsTrophy
-            size={30}
-          />
-        </AsideItem>
-        <AsideItem title='Categories'>
-          <MdOutlineCategory
-            size={30}
-          />
-        </AsideItem>
-        <AsideItem title='Priorities'>
-          <BsFlag
-            size={30}
-          />
-        </AsideItem>
-        <AsideItem title='Calendar'>
-          <BsCalendar4Week
-            size={30}
-          />
-        </AsideItem>
-      </div>
+      <Link to='/lists'>
+        <AsideItem
+          icon={<BsListTask size={30} />}
+          title='Lists'
+        />
+      </Link>
 
-      <div>
-        <AsideItem title='mode'>
-          {
-            nightmode ? (
-              <BsSunFill
-                size={30}
-                onClick={() => toggleNightmode()}
-              />
-            ) : (
-              <HiMoon
-                size={30}
-                onClick={() => toggleNightmode()}
-              />
-            )
-          }
-        </AsideItem>
-        <AsideItem title='Profile and settings'>
-          <BiUserCircle
-            size={30}
-          />
-        </AsideItem>
-      </div>
-    </StyledAside>
-  );
-};
+      <Link to='/goals'>
+        <AsideItem
+          icon={<BsTrophy size={30} />}
+          title='Goals'
+        />
+      </Link>
+
+      <Link to='/categories'>
+        <AsideItem
+          icon={<MdOutlineCategory size={30} />}
+          title='Categories'
+        />
+      </Link>
+
+      <Link to='/priorities'>
+        <AsideItem
+          icon={<BsFlag size={30} />}
+          title='Priorities'
+        />
+      </Link>
+
+      <Link to='/calendar'>
+        <AsideItem
+          icon={<BsCalendar4Week size={30} />}
+          title='Calendar'
+        />
+      </Link>
+    </div>
+
+    <AsideMenu
+      icon={<BiUserCircle size={35} />}
+      title='Profile and settings'
+    >
+      <p>(IMG) Ezequiel Guitler</p>
+      <p>____________________</p>
+      <p>Profile</p>
+      <p>Preferences</p>
+      <p>____________________</p>
+      <p>Log Out</p>
+    </AsideMenu>
+
+  </StyledAside>
+);
 
 export default Aside;

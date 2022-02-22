@@ -5,18 +5,13 @@ const StyledAside = styled.aside`
   left: 0;
   top: 0;
   bottom: 0;
-  width: 100px;
-  background-color: ${(props) => props.theme.primary};
-  color: white;
+  width: ${({ theme }) => theme.config.asideWidth};
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.white};
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-  & > div > p {
-      display: grid;
-      place-items: center;
-  }
 `;
 
 export default StyledAside;
