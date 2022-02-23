@@ -4,23 +4,8 @@ import {
   useRef,
   useState,
 } from 'react';
-import styled from 'styled-components';
 import AsideItem from '../AsideItem';
-
-const Container = styled.div`
-  position: relative;
-`;
-
-const Menu = styled.div`
-  position: absolute;
-  width: 200px;
-  border: 1px solid #888;
-  left: 90%;
-  bottom: 30%;
-  border-radius: 5px;
-  padding: 10px;
-  background-color: ${({ theme }) => theme.colors.secondary};
-`;
+import { Container, Menu } from './styles';
 
 const AsideMenu = ({
   children,
@@ -29,6 +14,12 @@ const AsideMenu = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef();
+
+  const newTitle = !isOpen ? title : '';
+
+  const toggleIsOpen = () => {
+    setIsOpen((open) => !open);
+  };
 
   useEffect(() => {
     function handleClick(e) {
@@ -47,8 +38,8 @@ const AsideMenu = ({
     <Container>
       <AsideItem
         icon={icon}
-        title={!isOpen ? title : ''}
-        onClick={() => setIsOpen(!isOpen)}
+        title={newTitle}
+        onClick={toggleIsOpen}
       />
       {isOpen && (
         <Menu ref={menuRef}>

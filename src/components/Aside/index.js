@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import StyledAside from './styles';
 import AsideItem from '../AsideItem';
 import AsideMenu from '../AsideMenu';
+import AsideMenuItem from '../AsideMenuItem';
 
 const Aside = () => (
   <StyledAside>
@@ -72,12 +73,26 @@ const Aside = () => (
       icon={<BiUserCircle size={35} />}
       title='Profile and settings'
     >
-      <p>(IMG) Ezequiel Guitler</p>
-      <p>____________________</p>
-      <p>Profile</p>
-      <p>Preferences</p>
-      <p>____________________</p>
-      <p>Log Out</p>
+      <p style={{ padding: '10px' }}>(IMG) Ezequiel Guitler</p>
+      <div
+        style={{
+          width: '100%',
+          height: '1px',
+          borderTop: '1px solid',
+          margin: '5px 0',
+        }}
+      />
+      <AsideMenuItem to='profile'>Profile</AsideMenuItem>
+      <AsideMenuItem to='settings'>Settings</AsideMenuItem>
+      <div
+        style={{
+          width: '100%',
+          height: '1px',
+          borderTop: '1px solid',
+          margin: '5px 0',
+        }}
+      />
+      <AsideMenuItem to='logout'>Log Out</AsideMenuItem>
     </AsideMenu>
 
   </StyledAside>

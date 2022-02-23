@@ -7,8 +7,9 @@ import {
 
 /**
  * @constructor
- * @param {node} children icon from react-icons
+ * @param {node} icon icon from react-icons
  * @param {string} title string to show on hover
+ * @param {func} onClick function to call on click event
  */
 const AsideItem = ({
   icon,
