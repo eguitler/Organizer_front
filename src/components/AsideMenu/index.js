@@ -1,6 +1,10 @@
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import styled from 'styled-components';
 import AsideItem from '../AsideItem';
 
 const Container = styled.div`
@@ -24,16 +28,30 @@ const AsideMenu = ({
   icon,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef();
+
+  useEffect(() => {
+    function handleClick(e) {
+      if (!menuRef?.current?.contains(e.target)) {
+        window.removeEventListener('click', handleClick);
+        setIsOpen(false);
+      }
+    }
+
+    if (isOpen) {
+      window.addEventListener('click', handleClick);
+    }
+  }, [isOpen]);
 
   return (
     <Container>
       <AsideItem
         icon={icon}
-        title={!isOpen && title}
-        onClick={() => setIsOpen((open) => !open)}
+        title={!isOpen ? title : ''}
+        onClick={() => setIsOpen(!isOpen)}
       />
       {isOpen && (
-        <Menu>
+        <Menu ref={menuRef}>
           {children}
         </Menu>
       )}
