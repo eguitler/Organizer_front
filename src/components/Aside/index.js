@@ -73,7 +73,8 @@ const Aside = () => (
       icon={<BiUserCircle size={35} />}
       title='Profile and settings'
     >
-      <p style={{ padding: '10px' }}>(IMG) Ezequiel Guitler</p>
+      <p style={{ padding: '10px', paddingBottom: '0' }}>(IMG) Ezequiel Guitler</p>
+      <p style={{ padding: '10px', paddingTop: '0' }}>eguitler@gmail.com</p>
       <div
         style={{
           width: '100%',
@@ -92,7 +93,7 @@ const Aside = () => (
           margin: '5px 0',
         }}
       />
-      <AsideMenuItem to='logout'>Log Out</AsideMenuItem>
+      <AsideMenuItem to='logout'>Log out</AsideMenuItem>
     </AsideMenu>
 
   </StyledAside>
