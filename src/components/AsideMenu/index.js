@@ -5,7 +5,10 @@ import {
   useState,
 } from 'react';
 import AsideItem from '../AsideItem';
-import { Container, Menu } from './styles';
+import {
+  Container,
+  Menu,
+} from './styles';
 
 const AsideMenu = ({
   children,
@@ -23,7 +26,10 @@ const AsideMenu = ({
 
   useEffect(() => {
     function handleClick(e) {
-      if (!menuRef?.current?.contains(e.target)) {
+      const isOutside = !menuRef?.current?.contains(e.target);
+      const isLink = e.target.localName === 'a';
+
+      if (isOutside || isLink) {
         window.removeEventListener('click', handleClick);
         setIsOpen(false);
       }
