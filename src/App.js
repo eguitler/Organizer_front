@@ -1,5 +1,3 @@
-import { ThemeProvider } from 'styled-components';
-import './App.css';
 import {
   QueryClient,
   QueryClientProvider,
@@ -9,10 +7,22 @@ import {
   Route,
   Routes,
 } from 'react-router-dom';
-import Home from './pages/Home';
-import theme from './styles/theme';
+import { ThemeProvider } from 'styled-components';
+import './App.css';
 import Layout from './components/Layout';
+import {
+  Calendar,
+  Projects,
+  Categories,
+  Goals,
+  Home,
+  Lists,
+  Priorities,
+  Profile,
+  Settings,
+} from './pages';
 import GlobalStyle from './styles/global';
+import theme from './styles/theme';
 
 const queryClient = new QueryClient();
 
@@ -25,7 +35,15 @@ function App() {
           <Layout>
             <Routes>
               <Route path='/' element={<Home />} />
+              <Route path='/projects' element={<Projects />} />
+              <Route path='/lists' element={<Lists />} />
+              <Route path='/goals' element={<Goals />} />
+              <Route path='/categories' element={<Categories />} />
+              <Route path='/priorities' element={<Priorities />} />
+              <Route path='/calendar' element={<Calendar />} />
 
+              <Route path='/profile' element={<Profile />} />
+              <Route path='/settings' element={<Settings />} />
             </Routes>
           </Layout>
         </BrowserRouter>
