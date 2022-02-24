@@ -8,7 +8,6 @@ import {
   Routes,
 } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import './App.css';
 import Layout from './components/Layout';
 import {
   Calendar,
