@@ -8,6 +8,7 @@ import {
   Routes,
 } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import Layout from './components/Layout';
 import {
   Calendar,
@@ -23,11 +24,18 @@ import {
 import GlobalStyle from './styles/global';
 import theme from './styles/theme';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  // defaultOptions: {
+  //   queries: {
+  //     staleTime: 15000,
+  //   },
+  // },
+});
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools />
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <GlobalStyle />

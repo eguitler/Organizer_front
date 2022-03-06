@@ -1,26 +1,62 @@
+import axios from 'axios';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import Button from '../../components/Button';
+import { API_URL } from '../../config/constants';
+import {
+  useCreateProject, useDeleteProject, useEditProject, useGetAllProjects,
+} from '../../hooks/projects';
 
 const Projects = () => {
-  const [state, setState] = useState({});
+  const [state, setState] = useState({
+    title: '',
+    description: '',
+  });
 
-  const { data, error, isLoading } = useQuery(
-    'asd',
-    () => fetch('https://peaceful-anchorage-20425.herokuapp.com/projects')
-      .then((res) => res.json()),
-  );
+  const {
+    projects,
+    error: queryError,
+    isLoading: queryLoading,
+  } = useGetAllProjects();
 
-  const createProject = () => {
+  const {
+    createProject,
+    error: createError,
+    isLoading: createLoading,
+  } = useCreateProject();
 
+  const {
+    editProject,
+    error: editError,
+    isLoading: editLoading,
+  } = useEditProject();
+
+  const {
+    deleteProject,
+    error: deleteError,
+    isLoading: deleteLoading,
+  } = useDeleteProject();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { title, description } = state;
+    createProject({ title, description });
   };
 
-  if (isLoading) {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  if (queryLoading) {
     return (
       <p>loading...</p>
     );
   }
-
+  console.log('rerender...');
   return (
     <div
       className='App'
@@ -30,23 +66,26 @@ const Projects = () => {
         color: 'white',
       }}
     >
-      <form onSubmit={createProject}>
+      <form onSubmit={handleSubmit}>
         <input
+          name='title'
           placeholder='title'
           value={state.title}
+          onChange={handleChange}
         />
         <input
+          name='description'
           placeholder='description'
           value={state.description}
+          onChange={handleChange}
         />
+        <Button>Create</Button>
       </form>
-      <Button variant='secondary'>Edit</Button>
-      <Button>Create</Button>
       <br />
       <br />
       <br />
       <br />
-      {data.map((project) => (
+      {projects.map((project) => (
         <div key={project.id}>
           <p>
             Titulo:
@@ -58,6 +97,10 @@ const Projects = () => {
             {' '}
             <strong>{project.description}</strong>
           </p>
+          <Button onClick={() => editProject({ id: project.id, ...state })}>Edit</Button>
+          <Button onClick={() => deleteProject({ id: project.id })}>Delete</Button>
+          <br />
+          <br />
         </div>
       ))}
     </div>
