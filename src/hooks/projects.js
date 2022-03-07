@@ -1,82 +1,76 @@
-import axios from 'axios';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { API_URL } from '../config/constants';
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from 'react-query';
+import {
+  createProject,
+  deleteProject,
+  editProject,
+  getProjects,
+} from '../api/projects';
 
-const QUERY_KEY = 'projects';
+const QUERY_KEY = ['projects'];
 
-export function useGetAllProjects() {
+export function useProjects() {
   const {
     data: projects,
-    error,
-    isLoading,
-  } = useQuery(
-    QUERY_KEY,
-    () => axios.get(`${API_URL}/projects`)
-      .then(({ data: resData }) => resData),
-  );
+    ...rest
+  } = useQuery(QUERY_KEY, getProjects);
 
-  return { projects, error, isLoading };
+  return { projects, ...rest };
 }
 
 export function useCreateProject() {
   const queryClient = useQueryClient();
   const invalidateQueries = () => queryClient.invalidateQueries(QUERY_KEY);
 
-  const create = ({ title, description }) => {
-    axios.post(
-      `${API_URL}/projects/create`,
-      { title, description },
-    );
-  };
+  const create = ({ title, description }) => createProject({ title, description });
 
-  const {
-    mutate: createProject,
-    error,
-    isLoading,
-  } = useMutation(create, {
-    onSuccess: () => invalidateQueries(),
-  });
+  const { mutate, ...rest } = useMutation(
+    create,
+    {
+      onSuccess: ({ data }) => {
+        queryClient.setQueryData(
+          QUERY_KEY,
+          (projects) => projects.concat(data),
+        );
+        invalidateQueries();
+      },
+    },
+  );
 
-  return { createProject, error, isLoading };
+  return { createProject: mutate, ...rest };
 }
 
 export function useEditProject() {
   const queryClient = useQueryClient();
   const invalidateQueries = () => queryClient.invalidateQueries(QUERY_KEY);
 
-  const edit = ({ id, title, description }) => {
-    axios.put(
-      `${API_URL}/projects/edit`,
-      { id, title, description },
-    );
-  };
+  const edit = ({ id, title, description }) => editProject({ id, title, description });
 
-  const {
-    mutate: editProject,
-    error,
-    isLoading,
-  } = useMutation(edit, {
-    onSuccess: () => invalidateQueries(),
-  });
+  const { mutate, ...rest } = useMutation(
+    edit,
+    {
+      onSuccess: () => invalidateQueries(),
+    },
+  );
 
-  return { editProject, error, isLoading };
+  return { editProject: mutate, ...rest };
 }
 
 export function useDeleteProject() {
   const queryClient = useQueryClient();
   const invalidateQueries = () => queryClient.invalidateQueries(QUERY_KEY);
 
-  const deletePr = ({ id }) => {
-    axios.delete(`${API_URL}/projects/delete?id=${id}`);
-  };
+  const deletePr = ({ id }) => deleteProject(id);
 
-  const {
-    mutate: deleteProject,
-    error,
-    isLoading,
-  } = useMutation(deletePr, {
-    onSuccess: () => invalidateQueries(),
-  });
+  const { mutate, ...rest } = useMutation(
+    deletePr,
+    {
+      onSuccess: () => invalidateQueries(),
+    },
+  );
 
-  return { deleteProject, error, isLoading };
+  return { deleteProject: mutate, ...rest };
 }

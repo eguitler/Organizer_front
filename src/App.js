@@ -25,11 +25,11 @@ import GlobalStyle from './styles/global';
 import theme from './styles/theme';
 
 const queryClient = new QueryClient({
-  // defaultOptions: {
-  //   queries: {
-  //     staleTime: 15000,
-  //   },
-  // },
+  defaultOptions: {
+    queries: {
+      staleTime: 15000,
+    },
+  },
 });
 
 function App() {

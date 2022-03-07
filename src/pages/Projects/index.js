@@ -1,10 +1,10 @@
-import axios from 'axios';
 import { useState } from 'react';
-import { useQuery } from 'react-query';
 import Button from '../../components/Button';
-import { API_URL } from '../../config/constants';
 import {
-  useCreateProject, useDeleteProject, useEditProject, useGetAllProjects,
+  useCreateProject,
+  useDeleteProject,
+  useEditProject,
+  useProjects,
 } from '../../hooks/projects';
 
 const Projects = () => {
@@ -17,7 +17,8 @@ const Projects = () => {
     projects,
     error: queryError,
     isLoading: queryLoading,
-  } = useGetAllProjects();
+    isFetching,
+  } = useProjects();
 
   const {
     createProject,
@@ -56,7 +57,9 @@ const Projects = () => {
       <p>loading...</p>
     );
   }
+
   console.log('rerender...');
+
   return (
     <div
       className='App'
