@@ -25,7 +25,17 @@ export function useCreateProject() {
   const queryClient = useQueryClient();
   const invalidateQueries = () => queryClient.invalidateQueries(QUERY_KEY);
 
-  const create = ({ title, description }) => createProject({ title, description });
+  const create = ({
+    title,
+    description,
+    code,
+    priority,
+  }) => createProject({
+    title,
+    description,
+    code,
+    priority,
+  });
 
   const { mutate, ...rest } = useMutation(
     create,

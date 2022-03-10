@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import Button from '../../components/Button';
+import ProjectListItem from '../../components/ProjectListItem';
+import { PRIORITIES } from '../../config/constants';
 import {
-  useCreateProject,
-  useDeleteProject,
-  useEditProject,
-  useProjects,
+  useCreateProject, useProjects,
 } from '../../hooks/projects';
 
 const Projects = () => {
   const [state, setState] = useState({
     title: '',
     description: '',
+    code: '',
+    startDate: new Date().toISOString().split('T')[0],
   });
 
   const {
@@ -26,26 +27,26 @@ const Projects = () => {
     isLoading: createLoading,
   } = useCreateProject();
 
-  const {
-    editProject,
-    error: editError,
-    isLoading: editLoading,
-  } = useEditProject();
-
-  const {
-    deleteProject,
-    error: deleteError,
-    isLoading: deleteLoading,
-  } = useDeleteProject();
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { title, description } = state;
-    createProject({ title, description });
+    const {
+      title,
+      description,
+      code,
+      priority,
+    } = state;
+
+    createProject({
+      title,
+      description,
+      code,
+      priority: parseInt(priority),
+    });
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(`asd >> ${name} --> ${value}`);
     setState((prevState) => ({
       ...prevState,
       [name]: value,
@@ -58,7 +59,12 @@ const Projects = () => {
     );
   }
 
-  console.log('rerender...');
+  const inputStyle = {
+    height: '40px',
+    padding: '10px',
+    margin: '10px',
+    width: '200px',
+  };
 
   return (
     <div
@@ -75,13 +81,41 @@ const Projects = () => {
           placeholder='title'
           value={state.title}
           onChange={handleChange}
+          style={inputStyle}
         />
         <input
           name='description'
           placeholder='description'
           value={state.description}
           onChange={handleChange}
+          style={inputStyle}
         />
+        <input
+          name='code'
+          placeholder='code'
+          value={state.code}
+          onChange={handleChange}
+          style={inputStyle}
+          maxLength={2}
+        />
+        <select
+          name='priority'
+          value={state.priority}
+          onChange={handleChange}
+          style={inputStyle}
+        >
+          <option default>Choose priority</option>
+          {PRIORITIES.map((prior) => (
+            <option
+              key={prior.value}
+              code={prior.value}
+              value={prior.value}
+            >
+              {prior.label}
+            </option>
+
+          ))}
+        </select>
         <Button>Create</Button>
       </form>
       <br />
@@ -89,22 +123,7 @@ const Projects = () => {
       <br />
       <br />
       {projects.map((project) => (
-        <div key={project.id}>
-          <p>
-            Titulo:
-            {' '}
-            <strong>{project.title}</strong>
-          </p>
-          <p>
-            Description:
-            {' '}
-            <strong>{project.description}</strong>
-          </p>
-          <Button onClick={() => editProject({ id: project.id, ...state })}>Edit</Button>
-          <Button onClick={() => deleteProject({ id: project.id })}>Delete</Button>
-          <br />
-          <br />
-        </div>
+        <ProjectListItem key={project.id} {...project} />
       ))}
     </div>
   );
