@@ -26,7 +26,7 @@ module.exports = {
     // 'react/jsx-props-no-spreading': 'off',
     // 'import/no-cycle': 'off',
     'jsx-quotes': ['warn', 'prefer-single'],
-    // radix: 'off',
+    radix: 'off',
     'padded-blocks': 'off',
     // 'linebreak-style': ['warn', 'unix'],
 
@@ -38,5 +38,6 @@ module.exports = {
     'react/function-component-definition': 'off',
     'import/no-unresolved': 'warn',
     'react/react-in-jsx-scope': 'off',
+    'react/jsx-props-no-spreading': 'off',
   },
 };
