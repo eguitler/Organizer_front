@@ -9,38 +9,17 @@ import {
 } from './styles';
 
 const ProjectListItem = ({
-  id,
   title,
   description,
   code,
   priority,
-  createdAt,
   tasks,
+  onEdit,
+  onDelete,
+  onAddTask,
 }) => {
 
-  const {
-    editProject,
-    error: editError,
-    isLoading: editLoading,
-  } = useEditProject();
-
-  const {
-    deleteProject,
-    error: deleteError,
-    isLoading: deleteLoading,
-  } = useDeleteProject();
-
-  const handleAddTask = () => {
-    // editProject({ id });
-  };
-
-  const handleEditProject = () => {
-    editProject({ id });
-  };
-
-  const handleDeleteProject = () => {
-    deleteProject({ id });
-  };
+  const prior = PRIORITIES.find((p) => p.value === priority).icon;
 
   return (
     <Container>
@@ -49,24 +28,15 @@ const ProjectListItem = ({
         <p>{description}</p>
       </Main>
       <Code>{code}</Code>
-      <p>
-        {PRIORITIES.find((p) => p.value === priority).icon}
-      </p>
-      {/* <p>
-        created at:
-        {' '}
-        {createdAt}
-      </p> */}
-      <p>
-        {tasks.length}
-      </p>
-      <Button onClick={handleAddTask}>
+      <p>{prior}</p>
+      <p>{tasks.length}</p>
+      <Button onClick={onAddTask}>
         Add Task
       </Button>
-      <Button onClick={handleEditProject}>
+      <Button onClick={onEdit}>
         Edit
       </Button>
-      <Button onClick={handleDeleteProject}>
+      <Button onClick={onDelete}>
         Delete
       </Button>
     </Container>
@@ -76,11 +46,12 @@ const ProjectListItem = ({
 export default ProjectListItem;
 
 ProjectListItem.propTypes = {
-  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   code: PropTypes.string.isRequired,
   priority: PropTypes.number.isRequired,
-  createdAt: PropTypes.string.isRequired,
   tasks: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onAddTask: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };

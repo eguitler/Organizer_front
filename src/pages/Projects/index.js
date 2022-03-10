@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Button from '../../components/Button';
+import Modal from '../../components/Modal';
 import ProjectListItem from '../../components/ProjectListItem';
 import { PRIORITIES } from '../../config/constants';
 import {
-  useCreateProject, useProjects,
+  useCreateProject, useDeleteProject, useEditProject, useProjects,
 } from '../../hooks/projects';
 
 const Projects = () => {
@@ -13,6 +14,8 @@ const Projects = () => {
     code: '',
     startDate: new Date().toISOString().split('T')[0],
   });
+
+  const editModal = useRef();
 
   const {
     projects,
@@ -27,8 +30,21 @@ const Projects = () => {
     isLoading: createLoading,
   } = useCreateProject();
 
-  const handleSubmit = (e) => {
+  const {
+    editProject,
+    error: editError,
+    isLoading: editLoading,
+  } = useEditProject();
+
+  const {
+    deleteProject,
+    error: deleteError,
+    isLoading: deleteLoading,
+  } = useDeleteProject();
+
+  const handleCreateProject = (e) => {
     e.preventDefault();
+
     const {
       title,
       description,
@@ -42,6 +58,14 @@ const Projects = () => {
       code,
       priority: parseInt(priority),
     });
+
+    editModal.current.close();
+  };
+
+  const handleSaveProjectData = (e) => {
+    e.preventDefault();
+    editProject({ id: state.id, ...state });
+    editModal.current.close();
   };
 
   const handleChange = (e) => {
@@ -51,6 +75,19 @@ const Projects = () => {
       ...prevState,
       [name]: value,
     }));
+  };
+
+  const handleAddTask = (id) => {
+    console.log('asd ADD TASK TO ', id);
+  };
+
+  const handleEdit = (project) => {
+    setState(project);
+    editModal.current.open();
+  };
+
+  const handleDelete = (id) => {
+    deleteProject({ id });
   };
 
   if (queryLoading) {
@@ -67,65 +104,92 @@ const Projects = () => {
   };
 
   return (
-    <div
-      className='App'
-      style={{
-        backgroundColor: '#111',
-        height: '100vh',
-        color: 'white',
-      }}
-    >
-      <form onSubmit={handleSubmit}>
-        <input
-          name='title'
-          placeholder='title'
-          value={state.title}
-          onChange={handleChange}
-          style={inputStyle}
-        />
-        <input
-          name='description'
-          placeholder='description'
-          value={state.description}
-          onChange={handleChange}
-          style={inputStyle}
-        />
-        <input
-          name='code'
-          placeholder='code'
-          value={state.code}
-          onChange={handleChange}
-          style={inputStyle}
-          maxLength={2}
-        />
-        <select
-          name='priority'
-          value={state.priority}
-          onChange={handleChange}
-          style={inputStyle}
-        >
-          <option default>Choose priority</option>
-          {PRIORITIES.map((prior) => (
-            <option
-              key={prior.value}
-              code={prior.value}
-              value={prior.value}
-            >
-              {prior.label}
-            </option>
+    <>
+      <div
+        className='App'
+        style={{
+          backgroundColor: '#111',
+          height: '100vh',
+          color: 'white',
+        }}
+      >
+        <Button onClick={() => editModal.current.open()}>
+          New Project
+        </Button>
+        <br />
+        <br />
+        <br />
+        <br />
+        {projects.map((project) => (
+          <ProjectListItem
+            onEdit={() => handleEdit(project)}
+            onAddTask={() => handleAddTask(project.id)}
+            onDelete={() => handleDelete(project.id)}
+            key={project.id}
+            {...project}
+          />
+        ))}
+      </div>
 
-          ))}
-        </select>
-        <Button>Create</Button>
-      </form>
-      <br />
-      <br />
-      <br />
-      <br />
-      {projects.map((project) => (
-        <ProjectListItem key={project.id} {...project} />
-      ))}
-    </div>
+      <Modal ref={editModal}>
+        {state.id ? 'Edit' : 'Create'}
+        <form onSubmit={state.id ? handleSaveProjectData : handleCreateProject}>
+          <input
+            name='title'
+            placeholder='title'
+            value={state.title}
+            onChange={handleChange}
+            style={inputStyle}
+          />
+          <input
+            name='description'
+            placeholder='description'
+            value={state.description}
+            onChange={handleChange}
+            style={inputStyle}
+          />
+          <input
+            name='code'
+            placeholder='code'
+            value={state.code}
+            onChange={handleChange}
+            style={inputStyle}
+            maxLength={2}
+          />
+          <select
+            name='priority'
+            value={state.priority}
+            onChange={handleChange}
+            style={inputStyle}
+          >
+            <option default>Choose priority</option>
+            {PRIORITIES.map((prior) => (
+              <option
+                key={prior.value}
+                code={prior.value}
+                value={prior.value}
+              >
+                {prior.label}
+              </option>
+
+            ))}
+          </select>
+          <Button
+            variant='outlined'
+            onClick={(e) => {
+              e.preventDefault();
+              editModal.current.close();
+              setState({});
+            }}
+          >
+            Close
+          </Button>
+          <Button>
+            {state.id ? 'Edit' : 'Create'}
+          </Button>
+        </form>
+      </Modal>
+    </>
   );
 };
 
