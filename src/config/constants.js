@@ -3,18 +3,18 @@ export const API_URL = process.env.REACT_APP_API_URL;
 
 export const PRIORITIES = [
   {
-    value: 0,
-    label: 'Low',
-    icon: '💧',
+    value: 2,
+    label: 'High',
+    icon: '🔴',
   },
   {
     value: 1,
     label: 'Medium',
-    icon: '➖',
+    icon: '🟡',
   },
   {
-    value: 2,
-    label: 'High',
-    icon: '🔥',
+    value: 0,
+    label: 'Low',
+    icon: '🔵',
   },
 ];
