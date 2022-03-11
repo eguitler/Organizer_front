@@ -39,5 +39,6 @@ module.exports = {
     'import/no-unresolved': 'warn',
     'react/react-in-jsx-scope': 'off',
     'react/jsx-props-no-spreading': 'off',
+    'no-multiple-empty-lines': 'off',
   },
 };
