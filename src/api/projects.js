@@ -7,6 +7,13 @@ export const getProjects = async () => {
   return data;
 };
 
+export const getProjectById = async (id) => {
+  console.log('asd >> ', id);
+  const url = `${API_URL}/projects/${id}`;
+  const { data } = await axios.get(url);
+  return data;
+};
+
 export const createProject = async (project) => {
   const url = `${API_URL}/projects/create`;
   const { data } = await axios.post(url, project);

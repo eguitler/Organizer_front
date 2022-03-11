@@ -7,10 +7,14 @@ import {
   createProject,
   deleteProject,
   editProject,
+  getProjectById,
   getProjects,
 } from '../api/projects';
 
+
 const QUERY_KEY = ['projects'];
+const QUERY_KEY2 = ['project'];
+
 
 export function useProjects() {
   const {
@@ -21,20 +25,29 @@ export function useProjects() {
   return { projects, ...rest };
 }
 
+
+export function useGetProject(id) {
+  const {
+    data: project,
+    ...rest
+  } = useQuery(
+    QUERY_KEY2,
+    () => getProjectById(id),
+  );
+
+  return { project, ...rest };
+}
+
+
 export function useCreateProject() {
   const queryClient = useQueryClient();
   const invalidateQueries = () => queryClient.invalidateQueries(QUERY_KEY);
 
-  const create = ({
-    title,
-    description,
-    code,
-    priority,
-  }) => createProject({
-    title,
-    description,
-    code,
-    priority,
+  const create = (pr) => createProject({
+    title: pr.title,
+    description: pr.description,
+    code: pr.code,
+    priority: pr.priority,
   });
 
   const { mutate, ...rest } = useMutation(
@@ -53,21 +66,26 @@ export function useCreateProject() {
   return { createProject: mutate, ...rest };
 }
 
+
 export function useEditProject() {
   const queryClient = useQueryClient();
   const invalidateQueries = () => queryClient.invalidateQueries(QUERY_KEY);
 
-  const edit = ({ id, title, description }) => editProject({ id, title, description });
+  const edit = (pr) => editProject({
+    id: pr.id,
+    title: pr.title,
+    description: pr.description,
+    priority: pr.priority,
+  });
 
   const { mutate, ...rest } = useMutation(
     edit,
-    {
-      onSuccess: () => invalidateQueries(),
-    },
+    { onSuccess: () => invalidateQueries() },
   );
 
   return { editProject: mutate, ...rest };
 }
+
 
 export function useDeleteProject() {
   const queryClient = useQueryClient();
@@ -77,9 +95,8 @@ export function useDeleteProject() {
 
   const { mutate, ...rest } = useMutation(
     deletePr,
-    {
-      onSuccess: () => invalidateQueries(),
-    },
+    { onSuccess: () => invalidateQueries() },
+
   );
 
   return { deleteProject: mutate, ...rest };
