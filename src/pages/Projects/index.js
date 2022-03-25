@@ -146,24 +146,6 @@ const Projects = () => {
             style={INPUT_STYLES}
             maxLength={2}
           />
-          <select
-            name='priority'
-            value={state.priority}
-            onChange={handleChange}
-            style={INPUT_STYLES}
-          >
-            <option default>Choose priority</option>
-            {PRIORITIES.map((prior) => (
-              <option
-                key={prior.value}
-                code={prior.value}
-                value={prior.value}
-              >
-                {prior.label}
-              </option>
-
-            ))}
-          </select>
           <Button
             variant='outlined'
             onClick={(e) => {
