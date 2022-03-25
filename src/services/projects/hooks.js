@@ -26,13 +26,13 @@ export function useProjects() {
 }
 
 
-export function useGetProject(id) {
+export function useGetProject(code) {
   const {
     data: project,
     ...rest
   } = useQuery(
-    [...QUERY_KEY2, id],
-    () => getProjectById(id),
+    [...QUERY_KEY2, code],
+    () => getProjectById(code),
   );
 
   return { project, ...rest };
@@ -71,7 +71,7 @@ export function useEditProject() {
   const invalidateQueries = () => queryClient.invalidateQueries(QUERY_KEY);
 
   const edit = (pr) => editProject({
-    id: pr.id,
+    code: pr.code,
     title: pr.title,
     description: pr.description,
   });

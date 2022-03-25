@@ -12,10 +12,9 @@ import {
 
 const Projects = () => {
   const [state, setState] = useState({
+    code: '',
     title: '',
     description: '',
-    code: '',
-    startDate: new Date().toISOString().split('T')[0],
   });
 
   const editModal = useRef();
@@ -66,8 +65,10 @@ const Projects = () => {
   };
 
   const handleSaveProjectData = (e) => {
+    console.log('asd>> PROJECT SAVE: ', state);
+
     e.preventDefault();
-    editProject({ id: state.id, ...state });
+    editProject(state);
     editModal.current.close();
   };
 
@@ -81,7 +82,12 @@ const Projects = () => {
   };
 
   const handleEdit = (project) => {
-    setState(project);
+    setState({
+      code: project.code,
+      title: project.title,
+      description: project.description,
+    });
+    console.log('asd>> PROJECT EDIT: ', project);
     editModal.current.open();
   };
 
@@ -122,8 +128,8 @@ const Projects = () => {
       </div>
 
       <Modal ref={editModal}>
-        {state.id ? 'Edit' : 'Create'}
-        <form onSubmit={state.id ? handleSaveProjectData : handleCreateProject}>
+        {state.code ? 'Edit' : 'Create'}
+        <form onSubmit={state.code ? handleSaveProjectData : handleCreateProject}>
           <input
             name='title'
             placeholder='title'
@@ -158,7 +164,7 @@ const Projects = () => {
             Close
           </Button>
           <Button>
-            {state.id ? 'Edit' : 'Create'}
+            {state.code ? 'Edit' : 'Create'}
           </Button>
         </form>
       </Modal>

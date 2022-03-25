@@ -20,12 +20,12 @@ const ProjectListItem = ({
     tasks,
   } = data;
 
-
+  console.log('asd >>> ', title, ' -- ', code);
   return (
     <Container>
       <Code>{code}</Code>
       <Main>
-        <Title to={`/projects/${id}`}>
+        <Title to={`/projects/${code}`}>
           <h3>{title}</h3>
         </Title>
       </Main>

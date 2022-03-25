@@ -15,19 +15,20 @@ const Project = () => {
     priority: '',
   });
 
-  const { id } = useParams();
+  const { code } = useParams();
   const newTaskModalRef = useRef();
 
-  const { project, isLoading, isError } = useGetProject(id);
+  const { project, isLoading, isError } = useGetProject(code);
   const {
     tasks = [],
     isLoading: isLoadingTasks,
-  } = useTasks(id);
+  } = useTasks(code);
+  console.log('asd >> PR ', project);
 
   const {
     createTask,
     isLoading: isLoadingCreateTask,
-  } = useCreateTask(id);
+  } = useCreateTask(code);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

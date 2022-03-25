@@ -18,12 +18,14 @@ const TaskListItem = ({
     title,
     description,
     priority,
+    code,
   } = data;
 
   const prior = PRIORITIES.find((p) => p.value === priority).icon;
 
   return (
     <Container>
+      <p>{code || '-'}</p>
       <Main>
         <Title to={`/projects/${id}`}>
           <h3>{title}</h3>

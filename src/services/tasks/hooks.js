@@ -33,7 +33,7 @@ export function useTasks(projectId) {
 }
 
 
-export function useCreateTask(projectId) {
+export function useCreateTask(projectCode) {
   const queryClient = useQueryClient();
   const invalidateQueries = () => queryClient.invalidateQueries(QUERY_KEY);
 
@@ -41,7 +41,7 @@ export function useCreateTask(projectId) {
     title: task.title,
     description: task.description,
     priority: task.priority,
-    parentId: projectId,
+    projectCode,
   });
 
   const { mutate, ...rest } = useMutation(
@@ -49,7 +49,7 @@ export function useCreateTask(projectId) {
     {
       onSuccess: ({ data }) => {
         queryClient.setQueryData(
-          [...QUERY_KEY, projectId],
+          [...QUERY_KEY, projectCode],
           (tasks) => tasks.concat(data),
         );
         invalidateQueries();

@@ -7,8 +7,8 @@ export const getProjects = async () => {
   return data;
 };
 
-export const getProjectById = async (id) => {
-  const url = `${API_URL}/projects/${id}`;
+export const getProjectById = async (code) => {
+  const url = `${API_URL}/projects/${code}`;
   const { data } = await axios.get(url);
   return data;
 };
