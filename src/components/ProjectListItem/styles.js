@@ -7,7 +7,7 @@ export const Container = styled.div`
   align-items: center;
   padding: 1rem;
   gap: 1rem;
-  margin: .5rem 2rem;
+  margin: .5rem 0;
   border-radius: 8px;
   `;
 
