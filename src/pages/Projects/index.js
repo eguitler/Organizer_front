@@ -144,7 +144,8 @@ const Projects = () => {
             value={state.code}
             onChange={handleChange}
             style={INPUT_STYLES}
-            maxLength={2}
+            maxLength={6}
+            minLength={2}
           />
           <Button
             variant='outlined'
