@@ -9,7 +9,7 @@ import {
   editProject,
   getProjectById,
   getProjects,
-} from '../api/projects';
+} from './api';
 
 
 const QUERY_KEY = ['projects'];
@@ -31,7 +31,7 @@ export function useGetProject(id) {
     data: project,
     ...rest
   } = useQuery(
-    QUERY_KEY2,
+    [...QUERY_KEY2, id],
     () => getProjectById(id),
   );
 

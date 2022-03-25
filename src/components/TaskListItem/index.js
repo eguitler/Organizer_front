@@ -2,13 +2,12 @@ import PropTypes from 'prop-types';
 import { PRIORITIES } from '../../config/constants';
 import Button from '../Button';
 import {
-  Code,
   Container,
   Main,
   Title,
 } from './styles';
 
-const ProjectListItem = ({
+const TaskListItem = ({
   data,
   onEdit,
   onDelete,
@@ -17,8 +16,7 @@ const ProjectListItem = ({
   const {
     id,
     title,
-    code,
-    tasks,
+    description,
     priority,
   } = data;
 
@@ -31,9 +29,8 @@ const ProjectListItem = ({
           <h3>{title}</h3>
         </Title>
       </Main>
-      <Code>{code}</Code>
+      <span>{description}</span>
       <p>{prior}</p>
-      <p>{tasks.length}</p>
       <Button onClick={onEdit}>
         Edit
       </Button>
@@ -44,19 +41,18 @@ const ProjectListItem = ({
   );
 };
 
-export default ProjectListItem;
+export default TaskListItem;
 
-ProjectListItem.propTypes = {
+TaskListItem.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  code: PropTypes.string.isRequired,
   priority: PropTypes.number.isRequired,
-  tasks: PropTypes.arrayOf(PropTypes.string).isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   data: PropTypes.shape({
     id: PropTypes.string,
     title: PropTypes.string,
+    description: PropTypes.string,
     code: PropTypes.string,
     tasks: PropTypes.arrayOf(PropTypes.string),
     priority: PropTypes.number,

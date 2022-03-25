@@ -18,3 +18,10 @@ export const PRIORITIES = [
     icon: '🔵',
   },
 ];
+
+export const INPUT_STYLES = {
+  height: '40px',
+  padding: '10px',
+  margin: '10px',
+  width: '200px',
+};

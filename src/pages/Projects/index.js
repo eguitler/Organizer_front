@@ -2,10 +2,13 @@ import { useRef, useState } from 'react';
 import Button from '../../components/Button';
 import Modal from '../../components/Modal';
 import ProjectListItem from '../../components/ProjectListItem';
-import { PRIORITIES } from '../../config/constants';
+import { INPUT_STYLES, PRIORITIES } from '../../config/constants';
 import {
-  useCreateProject, useDeleteProject, useEditProject, useProjects,
-} from '../../hooks/projects';
+  useCreateProject,
+  useDeleteProject,
+  useEditProject,
+  useProjects,
+} from '../../services/projects';
 
 const Projects = () => {
   const [state, setState] = useState({
@@ -77,10 +80,6 @@ const Projects = () => {
     }));
   };
 
-  const handleAddTask = (id) => {
-    console.log('asd ADD TASK TO ', id);
-  };
-
   const handleEdit = (project) => {
     setState(project);
     editModal.current.open();
@@ -96,19 +95,11 @@ const Projects = () => {
     );
   }
 
-  const inputStyle = {
-    height: '40px',
-    padding: '10px',
-    margin: '10px',
-    width: '200px',
-  };
-
   return (
     <>
       <div
         className='App'
         style={{
-          backgroundColor: '#111',
           height: '100vh',
           color: 'white',
         }}
@@ -123,10 +114,9 @@ const Projects = () => {
         {projects.map((project) => (
           <ProjectListItem
             onEdit={() => handleEdit(project)}
-            onAddTask={() => handleAddTask(project.id)}
             onDelete={() => handleDelete(project.id)}
             key={project.id}
-            {...project}
+            data={project}
           />
         ))}
       </div>
@@ -139,28 +129,28 @@ const Projects = () => {
             placeholder='title'
             value={state.title}
             onChange={handleChange}
-            style={inputStyle}
+            style={INPUT_STYLES}
           />
           <input
             name='description'
             placeholder='description'
             value={state.description}
             onChange={handleChange}
-            style={inputStyle}
+            style={INPUT_STYLES}
           />
           <input
             name='code'
             placeholder='code'
             value={state.code}
             onChange={handleChange}
-            style={inputStyle}
+            style={INPUT_STYLES}
             maxLength={2}
           />
           <select
             name='priority'
             value={state.priority}
             onChange={handleChange}
-            style={inputStyle}
+            style={INPUT_STYLES}
           >
             <option default>Choose priority</option>
             {PRIORITIES.map((prior) => (

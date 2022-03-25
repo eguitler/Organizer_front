@@ -15,7 +15,7 @@ const Section = styled.section`
 const Layout = ({ children }) => (
   <Main>
     <Aside />
-    <Section>
+    <Section style={{ padding: '1.5rem 2rem' }}>
       {children}
     </Section>
   </Main>

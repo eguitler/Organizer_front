@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URL } from '../config/constants';
+import { API_URL } from '../../config/constants';
 
 export const getProjects = async () => {
   const url = `${API_URL}/projects`;
@@ -8,7 +8,6 @@ export const getProjects = async () => {
 };
 
 export const getProjectById = async (id) => {
-  console.log('asd >> ', id);
   const url = `${API_URL}/projects/${id}`;
   const { data } = await axios.get(url);
   return data;
