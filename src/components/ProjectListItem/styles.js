@@ -22,10 +22,10 @@ export const Title = styled(Link)`
 `;
 
 export const Code = styled.div`
-  border: 1px solid white;
+  border: 1px solid whitesmoke;
   display: grid;
   place-items: center;
   padding: .5rem;
-  border-radius: 5px;
+  border-radius: 10px;
   font-weight: 700;
 `;

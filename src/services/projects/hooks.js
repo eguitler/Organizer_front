@@ -47,7 +47,6 @@ export function useCreateProject() {
     title: pr.title,
     description: pr.description,
     code: pr.code,
-    priority: pr.priority,
   });
 
   const { mutate, ...rest } = useMutation(
@@ -75,7 +74,6 @@ export function useEditProject() {
     id: pr.id,
     title: pr.title,
     description: pr.description,
-    priority: pr.priority,
   });
 
   const { mutate, ...rest } = useMutation(

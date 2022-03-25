@@ -44,9 +44,6 @@ const TaskListItem = ({
 export default TaskListItem;
 
 TaskListItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  priority: PropTypes.number.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   data: PropTypes.shape({
