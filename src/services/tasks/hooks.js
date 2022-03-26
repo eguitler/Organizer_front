@@ -41,6 +41,7 @@ export function useCreateTask(projectCode) {
     title: task.title,
     description: task.description,
     priority: task.priority,
+    projectId: task.projectId,
     projectCode,
   });
 

@@ -15,6 +15,7 @@ const Projects = () => {
     code: '',
     title: '',
     description: '',
+    isCreate: false,
   });
 
   const editModal = useRef();
@@ -86,13 +87,14 @@ const Projects = () => {
       code: project.code,
       title: project.title,
       description: project.description,
+      isCreate: false,
     });
     console.log('asd>> PROJECT EDIT: ', project);
     editModal.current.open();
   };
 
-  const handleDelete = (id) => {
-    deleteProject({ id });
+  const handleDelete = (code) => {
+    deleteProject(code);
   };
 
   if (queryLoading) {
@@ -110,7 +112,12 @@ const Projects = () => {
           color: 'white',
         }}
       >
-        <Button onClick={() => editModal.current.open()}>
+        <Button
+          onClick={() => {
+            setState((prev) => ({ ...prev, isCreate: true }));
+            editModal.current.open();
+          }}
+        >
           New Project
         </Button>
         <br />
@@ -120,7 +127,7 @@ const Projects = () => {
         {projects.map((project) => (
           <ProjectListItem
             onEdit={() => handleEdit(project)}
-            onDelete={() => handleDelete(project.id)}
+            onDelete={() => handleDelete(project.code)}
             key={project.id}
             data={project}
           />
@@ -128,8 +135,8 @@ const Projects = () => {
       </div>
 
       <Modal ref={editModal}>
-        {state.code ? 'Edit' : 'Create'}
-        <form onSubmit={state.code ? handleSaveProjectData : handleCreateProject}>
+        {state.isCreate ? 'Create' : 'Edit'}
+        <form onSubmit={state.isCreate ? handleCreateProject : handleSaveProjectData}>
           <input
             name='title'
             placeholder='title'
@@ -164,7 +171,7 @@ const Projects = () => {
             Close
           </Button>
           <Button>
-            {state.code ? 'Edit' : 'Create'}
+            {state.isCreate ? 'Create' : 'Edit'}
           </Button>
         </form>
       </Modal>

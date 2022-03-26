@@ -89,7 +89,7 @@ export function useDeleteProject() {
   const queryClient = useQueryClient();
   const invalidateQueries = () => queryClient.invalidateQueries(QUERY_KEY);
 
-  const deletePr = ({ id }) => deleteProject(id);
+  const deletePr = (code) => deleteProject(code);
 
   const { mutate, ...rest } = useMutation(
     deletePr,

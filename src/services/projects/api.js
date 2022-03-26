@@ -19,14 +19,14 @@ export const createProject = async (project) => {
   return data;
 };
 
-export const editProject = async (project) => {
-  const url = `${API_URL}/projects/edit`;
-  const { data } = await axios.put(url, project);
+export const editProject = async ({ code, ...rest }) => {
+  const url = `${API_URL}/projects/${code}/edit`;
+  const { data } = await axios.put(url, rest);
   return data;
 };
 
-export const deleteProject = async (id) => {
-  const url = `${API_URL}/projects/delete?id=${id}`;
+export const deleteProject = async (code) => {
+  const url = `${API_URL}/projects/${code}/delete`;
   const { data } = await axios.delete(url);
   return data;
 };

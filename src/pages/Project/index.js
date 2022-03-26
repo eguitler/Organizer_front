@@ -23,7 +23,6 @@ const Project = () => {
     tasks = [],
     isLoading: isLoadingTasks,
   } = useTasks(code);
-  console.log('asd >> PR ', project);
 
   const {
     createTask,
@@ -43,6 +42,7 @@ const Project = () => {
       title: state.title,
       description: state.description,
       priority: parseInt(state.priority),
+      projectId: project.id,
     };
     createTask(task);
   };
