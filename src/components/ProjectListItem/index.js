@@ -20,7 +20,6 @@ const ProjectListItem = ({
     tasks,
   } = data;
 
-  console.log('asd >>> ', title, ' -- ', code);
   return (
     <Container>
       <Code>{code}</Code>

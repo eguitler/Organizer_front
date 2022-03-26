@@ -66,8 +66,6 @@ const Projects = () => {
   };
 
   const handleSaveProjectData = (e) => {
-    console.log('asd>> PROJECT SAVE: ', state);
-
     e.preventDefault();
     editProject(state);
     editModal.current.close();
@@ -75,7 +73,7 @@ const Projects = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(`asd >> ${name} --> ${value}`);
+
     setState((prevState) => ({
       ...prevState,
       [name]: value,
@@ -89,7 +87,7 @@ const Projects = () => {
       description: project.description,
       isCreate: false,
     });
-    console.log('asd>> PROJECT EDIT: ', project);
+
     editModal.current.open();
   };
 
