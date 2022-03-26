@@ -4,7 +4,12 @@ import { Button, Modal } from '../../components';
 import TaskListItem from '../../components/TaskListItem';
 import { INPUT_STYLES, PRIORITIES } from '../../config/constants';
 import { useGetProject } from '../../services/projects';
-import { useCreateTask, useTasks } from '../../services/tasks';
+import {
+  useCreateTask,
+  useDeleteTask,
+  useEditTask,
+  useTasks,
+} from '../../services/tasks';
 import { Container, TasksHeader } from './styles';
 
 const Project = () => {
@@ -13,6 +18,7 @@ const Project = () => {
     title: '',
     description: '',
     priority: '',
+    isCreate: false,
   });
 
   const { code } = useParams();
@@ -28,6 +34,16 @@ const Project = () => {
     createTask,
     isLoading: isLoadingCreateTask,
   } = useCreateTask(code);
+
+  const {
+    editTask,
+    isLoading: isLoadinEditTask,
+  } = useEditTask(code);
+
+  const {
+    deleteTask,
+    isLoading: isLoadingDeleteTask,
+  } = useDeleteTask(code);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -45,6 +61,28 @@ const Project = () => {
       projectId: project.id,
     };
     createTask(task);
+  };
+
+  const handleEditTask = () => {
+    const task = {
+      title: state.title,
+      description: state.description,
+      priority: parseInt(state.priority),
+      code: state.code,
+    };
+    editTask(task);
+  };
+
+  const handleEdit = (task) => {
+    setState({
+      title: task.title,
+      description: task.description,
+      priority: task.priority,
+      code: task.code,
+      isCreate: false,
+    });
+
+    newTaskModalRef.current.open();
   };
 
   if (isError) {
@@ -67,15 +105,28 @@ const Project = () => {
         <p>{project.description}</p>
 
         <TasksHeader>
-          <h3>Tasks</h3>
-          <Button onClick={() => newTaskModalRef.current.open()}>
+          <h3>{`Tasks (${tasks.length})`}</h3>
+          {project.states.map((st) => <span style={{ color: st.color }}>{st.name}</span>)}
+          <Button
+            onClick={() => {
+              setState((prev) => ({ ...prev, isCreate: true }));
+              newTaskModalRef.current.open();
+            }}
+          >
             New task
           </Button>
         </TasksHeader>
         {
           isLoadingTasks
             ? <p>loading tasks</p>
-            : tasks.map((task) => <TaskListItem data={task} />)
+            : tasks.map((task) => (
+              <TaskListItem
+                key={project.id}
+                onEdit={() => handleEdit(task)}
+                onDelete={() => deleteTask(task.code)}
+                data={task}
+              />
+            ))
         }
       </Container>
 
@@ -119,8 +170,8 @@ const Project = () => {
         >
           Cancel
         </Button>
-        <Button onClick={handleCreateTask}>
-          Confirm
+        <Button onClick={state.isCreate ? handleCreateTask : handleEditTask}>
+          {state.isCreate ? 'Create' : 'Save'}
         </Button>
       </Modal>
     </>

@@ -13,14 +13,13 @@ import {
 
 
 const QUERY_KEY = ['projects'];
-const QUERY_KEY2 = ['project'];
 
 
 export function useProjects() {
   const {
     data: projects,
     ...rest
-  } = useQuery(QUERY_KEY, getProjects);
+  } = useQuery(QUERY_KEY, getProjects, { staleTime: 0 });
 
   return { projects, ...rest };
 }
@@ -31,7 +30,7 @@ export function useGetProject(code) {
     data: project,
     ...rest
   } = useQuery(
-    [...QUERY_KEY2, code],
+    [...QUERY_KEY, code],
     () => getProjectById(code),
   );
 

@@ -20,14 +20,14 @@ export const createTasks = async (project) => {
   return data;
 };
 
-// export const editProject = async (project) => {
-//   const url = `${API_URL}/projects/edit`;
-//   const { data } = await axios.put(url, project);
-//   return data;
-// };
+export const editTask = async ({ code, ...rest }) => {
+  const url = `${API_URL}/tasks/${code}/edit`;
+  const { data } = await axios.put(url, rest);
+  return data;
+};
 
-// export const deleteProject = async (id) => {
-//   const url = `${API_URL}/projects/delete?id=${id}`;
-//   const { data } = await axios.delete(url);
-//   return data;
-// };
+export const deleteTask = async (code) => {
+  const url = `${API_URL}/tasks/${code}/delete`;
+  const { data } = await axios.delete(url);
+  return data;
+};
