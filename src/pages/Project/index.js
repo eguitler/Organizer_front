@@ -18,6 +18,7 @@ const Project = () => {
     title: '',
     description: '',
     priority: '',
+    filter: '',
     isCreate: false,
   });
 
@@ -73,6 +74,13 @@ const Project = () => {
     editTask(task);
   };
 
+  const handleEditStatusTask = (codes, status) => {
+    editTask({
+      status,
+      code: codes,
+    });
+  };
+
   const handleEdit = (task) => {
     setState({
       title: task.title,
@@ -106,7 +114,20 @@ const Project = () => {
 
         <TasksHeader>
           <h3>{`Tasks (${tasks.length})`}</h3>
-          {project.states.map((st) => <span style={{ color: st.color }}>{st.name}</span>)}
+          <button
+            style={{ color: 'black' }}
+            onClick={() => setState((prev) => ({ ...prev, filter: '' }))}
+          >
+            ALL
+          </button>
+          {project.tasksStatus.map((st) => (
+            <button
+              style={{ color: st.color }}
+              onClick={() => setState((prev) => ({ ...prev, filter: st.name }))}
+            >
+              {st.name}
+            </button>
+          ))}
           <Button
             onClick={() => {
               setState((prev) => ({ ...prev, isCreate: true }));
@@ -119,14 +140,21 @@ const Project = () => {
         {
           isLoadingTasks
             ? <p>loading tasks</p>
-            : tasks.map((task) => (
-              <TaskListItem
-                key={project.id}
-                onEdit={() => handleEdit(task)}
-                onDelete={() => deleteTask(task.code)}
-                data={task}
-              />
-            ))
+            : tasks
+              .filter((task) => {
+                if (state.filter === '') return task;
+                return task.status.name === state.filter;
+              })
+              .map((task) => (
+                <TaskListItem
+                  key={project.id}
+                  onEdit={() => handleEdit(task)}
+                  onDelete={() => deleteTask(task.code)}
+                  onStatusEdit={(status) => handleEditStatusTask(task.code, status)}
+                  data={task}
+                  tasksStatus={project.tasksStatus}
+                />
+              ))
         }
       </Container>
 

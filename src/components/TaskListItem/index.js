@@ -9,19 +9,28 @@ import {
 
 const TaskListItem = ({
   data,
+  tasksStatus,
   onEdit,
   onDelete,
+  onStatusEdit,
 }) => {
 
   const {
     id,
     title,
+    status,
     description,
     priority,
     code,
   } = data;
 
   const prior = PRIORITIES.find((p) => p.value === priority).icon;
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    // console.log('asd >>> ', `${name} --> ${value}`);
+    onStatusEdit(value);
+  };
 
   return (
     <Container>
@@ -32,6 +41,11 @@ const TaskListItem = ({
         </Title>
       </Main>
       <span>{description}</span>
+      <select name='status' style={{ color: status.color }} onChange={handleChange} value={status.name}>
+        {tasksStatus.map((st) => (
+          <option value={st.name}>{st.name}</option>
+        ))}
+      </select>
       <p>{prior}</p>
       <Button onClick={onEdit}>
         Edit

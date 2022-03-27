@@ -17,7 +17,7 @@ module.exports = {
   },
   rules: {
     'no-unused-vars': 'warn',
-    // 'consistent-return': 'off',
+    'consistent-return': 'off',
     'react/button-has-type': 'off',
     // camelcase: 'off',
     // 'no-multi-spaces': 'off',
@@ -40,5 +40,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/jsx-props-no-spreading': 'off',
     'no-multiple-empty-lines': 'off',
+    'react/prop-types': 'off',
+    'no-underscore-dangle': 'off',
   },
 };
