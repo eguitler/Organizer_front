@@ -12,7 +12,6 @@ import {
 
 const Projects = () => {
   const [state, setState] = useState({
-    code: '',
     title: '',
     description: '',
     isCreate: false,
@@ -51,14 +50,12 @@ const Projects = () => {
     const {
       title,
       description,
-      code,
       priority,
     } = state;
 
     createProject({
       title,
       description,
-      code,
       priority: parseInt(priority),
     });
 
@@ -82,7 +79,7 @@ const Projects = () => {
 
   const handleEdit = (project) => {
     setState({
-      code: project.code,
+      id: project.id,
       title: project.title,
       description: project.description,
       isCreate: false,
@@ -91,8 +88,8 @@ const Projects = () => {
     editModal.current.open();
   };
 
-  const handleDelete = (code) => {
-    deleteProject(code);
+  const handleDelete = (id) => {
+    deleteProject(id);
   };
 
   if (queryLoading) {
@@ -125,7 +122,7 @@ const Projects = () => {
         {projects.map((project) => (
           <ProjectListItem
             onEdit={() => handleEdit(project)}
-            onDelete={() => handleDelete(project.code)}
+            onDelete={() => handleDelete(project.id)}
             key={project.id}
             data={project}
           />
@@ -148,15 +145,6 @@ const Projects = () => {
             value={state.description}
             onChange={handleChange}
             style={INPUT_STYLES}
-          />
-          <input
-            name='code'
-            placeholder='code'
-            value={state.code}
-            onChange={handleChange}
-            style={INPUT_STYLES}
-            maxLength={6}
-            minLength={2}
           />
           <Button
             variant='outlined'

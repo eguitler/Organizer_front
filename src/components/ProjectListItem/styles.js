@@ -20,12 +20,3 @@ export const Title = styled(Link)`
   font-size: 1rem;
   color: white;
 `;
-
-export const Code = styled.div`
-  border: 1px solid whitesmoke;
-  display: grid;
-  place-items: center;
-  padding: .5rem;
-  border-radius: 10px;
-  font-weight: 700;
-`;

@@ -22,29 +22,29 @@ const Project = () => {
     isCreate: false,
   });
 
-  const { code } = useParams();
+  const { id: projectId } = useParams();
   const newTaskModalRef = useRef();
 
-  const { project, isLoading, isError } = useGetProject(code);
+  const { project, isLoading, isError } = useGetProject(projectId);
   const {
     tasks = [],
     isLoading: isLoadingTasks,
-  } = useTasks(code);
+  } = useTasks(projectId);
 
   const {
     createTask,
     isLoading: isLoadingCreateTask,
-  } = useCreateTask(code);
+  } = useCreateTask(projectId);
 
   const {
     editTask,
     isLoading: isLoadinEditTask,
-  } = useEditTask(code);
+  } = useEditTask(projectId);
 
   const {
     deleteTask,
     isLoading: isLoadingDeleteTask,
-  } = useDeleteTask(code);
+  } = useDeleteTask(projectId);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -66,29 +66,27 @@ const Project = () => {
 
   const handleEditTask = () => {
     const task = {
+      id: state.id,
       title: state.title,
       description: state.description,
       priority: parseInt(state.priority),
-      code: state.code,
     };
     editTask(task);
   };
 
-  const handleEditStatusTask = (codes, status) => {
-    editTask({
-      status,
-      code: codes,
-    });
+  const handleEditStatusTask = (id, status) => {
+    editTask({ id, status });
   };
 
   const handleEdit = (task) => {
-    setState({
+    setState((prev) => ({
+      ...prev,
+      id: task.id,
       title: task.title,
       description: task.description,
       priority: task.priority,
-      code: task.code,
       isCreate: false,
-    });
+    }));
 
     newTaskModalRef.current.open();
   };
@@ -109,7 +107,7 @@ const Project = () => {
     <>
       <Container>
         {/* <Link to='/projects'>Atras</Link> */}
-        <h2>{`${project.title} [${project.code}]`}</h2>
+        <h2>{project.title}</h2>
         <p>{project.description}</p>
 
         <TasksHeader>
@@ -122,6 +120,7 @@ const Project = () => {
           </button>
           {project.tasksStatus.map((st) => (
             <button
+              key={st.name}
               style={{ color: st.color }}
               onClick={() => setState((prev) => ({ ...prev, filter: st.name }))}
             >
@@ -147,10 +146,10 @@ const Project = () => {
               })
               .map((task) => (
                 <TaskListItem
-                  key={project.id}
+                  key={task.id}
                   onEdit={() => handleEdit(task)}
-                  onDelete={() => deleteTask(task.code)}
-                  onStatusEdit={(status) => handleEditStatusTask(task.code, status)}
+                  onDelete={() => deleteTask(task.id)}
+                  onStatusEdit={(status) => handleEditStatusTask(task.id, status)}
                   data={task}
                   tasksStatus={project.tasksStatus}
                 />
@@ -184,7 +183,6 @@ const Project = () => {
           {PRIORITIES.map((prior) => (
             <option
               key={prior.value}
-              code={prior.value}
               value={prior.value}
             >
               {prior.label}

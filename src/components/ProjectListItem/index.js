@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import Button from '../Button';
 import {
-  Code,
   Container,
   Main,
   Title,
@@ -16,15 +15,13 @@ const ProjectListItem = ({
   const {
     id,
     title,
-    code,
     tasks,
   } = data;
 
   return (
     <Container>
-      <Code>{code}</Code>
       <Main>
-        <Title to={`/projects/${code}`}>
+        <Title to={`/projects/${id}`}>
           <h3>{title}</h3>
         </Title>
       </Main>
@@ -47,7 +44,6 @@ ProjectListItem.propTypes = {
   data: PropTypes.shape({
     id: PropTypes.string,
     title: PropTypes.string,
-    code: PropTypes.string,
     tasks: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
 };

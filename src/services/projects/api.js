@@ -7,8 +7,8 @@ export const getProjects = async () => {
   return data;
 };
 
-export const getProjectById = async (code) => {
-  const url = `${API_URL}/projects/${code}`;
+export const getProjectById = async (id) => {
+  const url = `${API_URL}/projects/${id}`;
   const { data } = await axios.get(url);
   return data;
 };
@@ -19,14 +19,14 @@ export const createProject = async (project) => {
   return data;
 };
 
-export const editProject = async ({ code, ...rest }) => {
-  const url = `${API_URL}/projects/${code}/edit`;
+export const editProject = async ({ id, ...rest }) => {
+  const url = `${API_URL}/projects/${id}/edit`;
   const { data } = await axios.put(url, rest);
   return data;
 };
 
-export const deleteProject = async (code) => {
-  const url = `${API_URL}/projects/${code}/delete`;
+export const deleteProject = async (id) => {
+  const url = `${API_URL}/projects/${id}/delete`;
   const { data } = await axios.delete(url);
   return data;
 };

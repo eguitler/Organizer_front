@@ -15,7 +15,7 @@ const QUERY_KEY = ['tasks'];
 const QUERY_KEY2 = ['task'];
 
 
-export function useTasks(projectCode) {
+export function useTasks(projectId) {
 
   // const get = () => {
   //   getTasks({ id });
@@ -29,13 +29,13 @@ export function useTasks(projectCode) {
   const {
     data: tasks,
     ...rest
-  } = useQuery([...QUERY_KEY, projectCode], () => getTasks(projectCode));
+  } = useQuery([...QUERY_KEY, projectId], () => getTasks(projectId));
 
   return { tasks, ...rest };
 }
 
 
-export function useCreateTask(projectCode) {
+export function useCreateTask(projectId) {
   const queryClient = useQueryClient();
   const invalidateQueries = () => queryClient.invalidateQueries(QUERY_KEY);
 
@@ -44,7 +44,6 @@ export function useCreateTask(projectCode) {
     description: task.description,
     priority: task.priority,
     projectId: task.projectId,
-    projectCode,
   });
 
   const { mutate, ...rest } = useMutation(
@@ -52,7 +51,7 @@ export function useCreateTask(projectCode) {
     {
       onSuccess: ({ data }) => {
         queryClient.setQueryData(
-          [...QUERY_KEY, projectCode],
+          [...QUERY_KEY, projectId],
           (tasks) => tasks.concat(data),
         );
         queryClient.refetchQueries('projects');
@@ -65,16 +64,16 @@ export function useCreateTask(projectCode) {
 }
 
 
-export function useEditTask(projectCode) {
+export function useEditTask(projectId) {
   const queryClient = useQueryClient();
-  const invalidateQueries = () => queryClient.invalidateQueries([...QUERY_KEY, projectCode]);
+  const invalidateQueries = () => queryClient.invalidateQueries([...QUERY_KEY, projectId]);
 
   const edit = (task) => editTask({
+    id: task.id,
     title: task.title,
     description: task.description,
     priority: task.priority,
     status: task.status,
-    code: task.code,
   });
 
   const { mutate, ...rest } = useMutation(
@@ -86,11 +85,11 @@ export function useEditTask(projectCode) {
 }
 
 
-export function useDeleteTask(projectCode) {
+export function useDeleteTask(projectId) {
   const queryClient = useQueryClient();
-  const invalidateQueries = () => queryClient.invalidateQueries([...QUERY_KEY, projectCode]);
+  const invalidateQueries = () => queryClient.invalidateQueries([...QUERY_KEY, projectId]);
 
-  const deletePr = (code) => deleteTask(code);
+  const deletePr = (id) => deleteTask(id);
 
   const { mutate, ...rest } = useMutation(
     deletePr,

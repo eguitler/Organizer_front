@@ -25,13 +25,13 @@ export function useProjects() {
 }
 
 
-export function useGetProject(code) {
+export function useGetProject(id) {
   const {
     data: project,
     ...rest
   } = useQuery(
-    [...QUERY_KEY, code],
-    () => getProjectById(code),
+    [...QUERY_KEY, id],
+    () => getProjectById(id),
   );
 
   return { project, ...rest };
@@ -45,7 +45,6 @@ export function useCreateProject() {
   const create = (pr) => createProject({
     title: pr.title,
     description: pr.description,
-    code: pr.code,
   });
 
   const { mutate, ...rest } = useMutation(
@@ -70,7 +69,7 @@ export function useEditProject() {
   const invalidateQueries = () => queryClient.invalidateQueries(QUERY_KEY);
 
   const edit = (pr) => editProject({
-    code: pr.code,
+    id: pr.id,
     title: pr.title,
     description: pr.description,
   });
@@ -88,7 +87,7 @@ export function useDeleteProject() {
   const queryClient = useQueryClient();
   const invalidateQueries = () => queryClient.invalidateQueries(QUERY_KEY);
 
-  const deletePr = (code) => deleteProject(code);
+  const deletePr = (id) => deleteProject(id);
 
   const { mutate, ...rest } = useMutation(
     deletePr,

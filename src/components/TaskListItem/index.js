@@ -21,7 +21,6 @@ const TaskListItem = ({
     status,
     description,
     priority,
-    code,
   } = data;
 
   const prior = PRIORITIES.find((p) => p.value === priority).icon;
@@ -34,7 +33,6 @@ const TaskListItem = ({
 
   return (
     <Container>
-      <p>{code || '-'}</p>
       <Main>
         <Title to={`/projects/${id}`}>
           <h3>{title}</h3>
@@ -43,7 +41,7 @@ const TaskListItem = ({
       <span>{description}</span>
       <select name='status' style={{ color: status.color }} onChange={handleChange} value={status.name}>
         {tasksStatus.map((st) => (
-          <option value={st.name}>{st.name}</option>
+          <option key={st.name} value={st.name}>{st.name}</option>
         ))}
       </select>
       <p>{prior}</p>
@@ -66,7 +64,6 @@ TaskListItem.propTypes = {
     id: PropTypes.string,
     title: PropTypes.string,
     description: PropTypes.string,
-    code: PropTypes.string,
     tasks: PropTypes.arrayOf(PropTypes.string),
     priority: PropTypes.number,
   }).isRequired,

@@ -6,7 +6,7 @@ export const Container = styled.section`
   color: white;
 `;
 
-export const TasksHeader = styled.h3`
+export const TasksHeader = styled.div`
   margin: 2rem 0 1rem;
   padding-bottom: .5rem;
   position: relative;
